@@ -11,7 +11,6 @@
 Frank = {} 
 Ethan = {}
 GameOver = {}
-Stick={}
 --Highscore = {}
 hsBoard = {}
 
@@ -62,15 +61,6 @@ function reset_game()
     Ethan.speed = 330
     Ethan.EthanX_velocity = 300
     EthanGravity = 600
-	StickIdle = love.graphics.newImage("Stick.png")
-	Stick.image=StickIdle
-	Stick.StickX = 770
-	Stick.StickY = 55
-	Stick.StickW = Stick.image:getWidth()
-	Stick.StickH = Stick.image:getHeight()
-    Stick.speed = 200
-    Stick.StickX_velocity = 410
-    StickGravity = 600
 	Line = love.graphics.newImage("Blackline.png")
 	ToggleButton = { x = 290, y = 200, ToggleImage = love.graphics.newImage("Button.png"), clicked = false}
 	ToggleWidth, ToggleHeight = ToggleButton.ToggleImage:getDimensions()
@@ -114,7 +104,6 @@ function love.draw()
 		love.graphics.print("Score: " .. Score, 720, 20)
 		love.graphics.draw(Ethan.image, Ethan.EthanX, Ethan.EthanY)
 		love.graphics.draw(Frank.image, Frank.FrankX, Frank.FrankY)
-		love.graphics.draw(Stick.image, Stick.StickX, Stick.StickY)
 		love.graphics.draw(Line, 10, 520)
 		love.graphics.print("Game - press 4 to go to Highscore Board.\n press 1 to go to Main Menu.")
 	elseif state == 3 then -- draw game over
@@ -234,22 +223,7 @@ function love.update(dt)
 				end 
 		end 
 	end 
-	
-	if GameStarted then 
-		Stick.StickX = Stick.StickX - Stick.StickX_velocity * dt
-	end 
-	
-		
-		if collide(Frank:hitbox(), Stick:hitbox()) then 
-			state = 3
-			
-		end  			
-	
-	local stick_width = Stick.image:getWidth()	
-	if Stick.StickX + stick_width < 0 then 
-		local width, height = love.graphics.getDimensions()
-		Stick.StickX = width
-	end 
+
 	if (GameOver.GameoverY_velocity ~= 600) then
 		GameOver.GameoverY = GameOver.GameoverY + GameOver.GameoverY_velocity * dt
 		GameOver.GameoverY_velocity = GameOver.GameoverY_velocity * dt
@@ -425,8 +399,3 @@ function Ethan:hitbox()
 	local tbl = {x = Ethan.EthanX, y = Ethan.EthanY, w = Ethan.EthanW, h = Ethan.EthanH }
 	return tbl; 
 end
-
-function Stick:hitbox()
-	local tbl = {x = Stick.StickX, y = Stick.StickY, w = Stick.StickW, h = Stick.StickH }
-	return tbl; 
-end 
